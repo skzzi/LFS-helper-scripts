@@ -1,0 +1,21 @@
+#!/bin/bash
+
+LFS=/mnt/lfs
+DIR=$LFS/dev/usb
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root."
+    exit
+fi
+
+if [ -d "$DIR" ]; then
+    umount -v $LFS/dev/shm;
+    umount -v $LFS/run;
+    umount -v $LFS/sys;
+    umount -v $LFS/proc;
+    umount -v $LFS/dev/pts;
+    umount -v $LFS/dev;
+    umount -v $LFS/boot;
+    umount -v $LFS
+    else echo "The LFS partitions and virtual filesystems are not mounted."
+fi

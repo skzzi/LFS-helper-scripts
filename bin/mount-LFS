@@ -1,0 +1,22 @@
+#!/bin/bash
+
+LFS=/mnt/lfs
+DIR=$LFS/dev/usb
+
+if [ "$EUID" -ne 0 ]; then 
+    echo "Please run as root"
+    exit
+fi
+
+if [ ! -d "$DIR" ]; then
+    mount -v -t ext4 -U 1beb08af-9fb4-4ef6-a39d-645000eae191 $LFS;
+    mount -v -t ext4 -U 32a874dc-006a-416f-bb05-c027d1477a86 $LFS/boot;
+    mount -v --bind /dev $LFS/dev;
+    mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts;
+    mount -vt proc proc $LFS/proc;
+    mount -vt sysfs sysfs $LFS/sys;
+    mount -vt tmpfs tmpfs $LFS/run;
+    mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+    else echo "The LFS partitions and virtual filesystems are already mounted"
+fi
+

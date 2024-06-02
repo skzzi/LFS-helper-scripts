@@ -1,0 +1,14 @@
+#!/bin/bash
+
+LFS=/mnt/lfs
+DIR=$LFS/dev/usb
+
+if [ "$EUID" -ne 0 ]; then 
+    echo "Please run as root"
+    exit
+fi
+
+if [ -d "$DIR" ]; then
+    chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" PS1='(lfs chroot) \u:\w\$ ' PATH=/usr/bin:/usr/sbin MAKEFLAGS="-j$(nproc)" TESTSUITEFLAGS="-j$(nproc)" /bin/bash --login
+    else echo "The LFS partions and virtual filesystems are not mounted."
+fi
